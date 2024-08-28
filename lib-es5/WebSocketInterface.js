@@ -70,22 +70,28 @@ module.exports = /*#__PURE__*/function () {
         this._ws.onmessage = this._onMessage.bind(this);
         this._ws.onerror = this._onError.bind(this);
         if (wsMessage) {
-          // eslint-disable-next-line no-console
-          console.log('wsMessage', wsMessage);
-
-          // eslint-disable-next-line no-console
-          console.log(this._ws, 'SOCKET');
-          this._ws.onopen = function () {
-            // eslint-disable-next-line no-console
-            console.log('Socket Status: ', this._ws.readyState, ' (open)');
-          };
-          this._ws.onmessage = function (msg) {
-            // eslint-disable-next-line no-console
-            console.log('%c Received: %s', 'color: #46af91;', msg.data);
-            if (msg.data.includes('Connected to Binotel WebSocket. Please, authorise!')) {
-              this._ws.send(wsMessage);
-            }
-          };
+          this.send(wsMessage);
+          // // eslint-disable-next-line no-console
+          // console.log('wsMessage', wsMessage);
+          //
+          // // eslint-disable-next-line no-console
+          // console.log(this._ws, 'SOCKET');
+          //
+          // this._ws.onopen = function()
+          // {
+          //   // eslint-disable-next-line no-console
+          //   console.log('Socket Status: ', this._ws.readyState, ' (open)');
+          // };
+          //
+          // this._ws.onmessage = function(msg)
+          // {
+          //   // eslint-disable-next-line no-console
+          //   console.log('%c Received: %s', 'color: #46af91;', msg.data);
+          //
+          //   if (msg.data.includes('Connected to Binotel WebSocket. Please, authorise!')) {
+          //     this._ws.send(wsMessage);
+          //   }
+          // };
         }
       } catch (e) {
         this._onError(e);

@@ -134,7 +134,7 @@ module.exports = /*#__PURE__*/function () {
           console.log(this.socket, 'SOCKET');
           this.socket._ws.onopen = function () {
             // eslint-disable-next-line no-console
-            console.log('Socket Status: ', this.socket.readyState, ' (open)');
+            console.log('Socket Status: ', this.socket._ws.readyState, ' (open)');
           };
           this.socket._ws.onmessage = function (msg) {
             // eslint-disable-next-line no-console

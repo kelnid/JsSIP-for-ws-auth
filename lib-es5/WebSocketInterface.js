@@ -17,6 +17,7 @@ module.exports = /*#__PURE__*/function () {
     this._sip_uri = null;
     this._via_transport = null;
     this._ws = null;
+    this._wsMessage = null;
     var parsed_url = Grammar.parse(url, 'absoluteURI');
     if (parsed_url === -1) {
       logger.warn("invalid WebSocket URI: ".concat(url));
@@ -69,30 +70,7 @@ module.exports = /*#__PURE__*/function () {
         this._ws.onclose = this._onClose.bind(this);
         this._ws.onmessage = this._onMessage.bind(this);
         this._ws.onerror = this._onError.bind(this);
-        if (wsMessage) {
-          this.send(wsMessage);
-          // // eslint-disable-next-line no-console
-          // console.log('wsMessage', wsMessage);
-          //
-          // // eslint-disable-next-line no-console
-          // console.log(this._ws, 'SOCKET');
-          //
-          // this._ws.onopen = function()
-          // {
-          //   // eslint-disable-next-line no-console
-          //   console.log('Socket Status: ', this._ws.readyState, ' (open)');
-          // };
-          //
-          // this._ws.onmessage = function(msg)
-          // {
-          //   // eslint-disable-next-line no-console
-          //   console.log('%c Received: %s', 'color: #46af91;', msg.data);
-          //
-          //   if (msg.data.includes('Connected to Binotel WebSocket. Please, authorise!')) {
-          //     this._ws.send(wsMessage);
-          //   }
-          // };
-        }
+        this._wsMessage = wsMessage;
       } catch (e) {
         this._onError(e);
       }
@@ -141,6 +119,15 @@ module.exports = /*#__PURE__*/function () {
     key: "_onOpen",
     value: function _onOpen() {
       logger.debug("WebSocket ".concat(this._url, " connected"));
+      if (this._wsMessage) {
+        this._ws.onmessage = function (msg) {
+          // eslint-disable-next-line no-console
+          console.log('%c Received: %s', 'color: #46af91;', msg.data);
+          if (msg.data.includes('Connected to Binotel WebSocket. Please, authorise!')) {
+            this._ws.send(this._wsMessage);
+          }
+        };
+      }
       this.onconnect();
     }
   }, {

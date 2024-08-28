@@ -12,6 +12,10 @@ export interface UnRegisterOptions {
   all?: boolean;
 }
 
+export interface startOptions {
+  wsMessage?: string;
+}
+
 export interface CallOptions extends AnswerOptions {
   eventHandlers?: Partial<RTCSessionEventMap>;
   anonymous?: boolean;
@@ -175,7 +179,7 @@ export class UA extends EventEmitter {
 
   get contact(): UAContact;
 
-  start(): void;
+  start(options?: startOptions): void;
 
   stop(): void;
 

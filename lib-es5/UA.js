@@ -134,10 +134,10 @@ module.exports = /*#__PURE__*/function (_EventEmitter) {
      */
   }, {
     key: "start",
-    value: function start() {
+    value: function start(wsMessage) {
       logger.debug('start()');
       if (this._status === C.STATUS_INIT) {
-        this._transport.connect();
+        this._transport.connect(wsMessage);
       } else if (this._status === C.STATUS_USER_CLOSED) {
         logger.debug('restarting UA');
 
@@ -150,7 +150,7 @@ module.exports = /*#__PURE__*/function (_EventEmitter) {
 
         // Reconnect.
         this._status = C.STATUS_INIT;
-        this._transport.connect();
+        this._transport.connect(wsMessage);
       } else if (this._status === C.STATUS_READY) {
         logger.debug('UA is in READY status, not restarted');
       } else {

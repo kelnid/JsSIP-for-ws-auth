@@ -105,7 +105,7 @@ module.exports = /*#__PURE__*/function () {
     }
   }, {
     key: "connect",
-    value: function connect() {
+    value: function connect(wsMessage) {
       logger.debug('connect()');
       if (this.isConnected()) {
         logger.debug('Transport is already connected');
@@ -125,6 +125,10 @@ module.exports = /*#__PURE__*/function () {
         this.socket.onconnect = this._onConnect.bind(this);
         this.socket.ondisconnect = this._onDisconnect.bind(this);
         this.socket.ondata = this._onData.bind(this);
+        this.socket.connect();
+        if (wsMessage) {
+          this.socket.send(wsMessage);
+        }
       }
       return;
     }

@@ -129,17 +129,26 @@ module.exports = /*#__PURE__*/function () {
         if (wsMessage) {
           // eslint-disable-next-line no-console
           console.log('wsMessage', wsMessage);
-          this.socket.onopen = function () {
-            // eslint-disable-next-line no-console
-            console.log('Socket Status: ', this.socket.readyState, ' (open)');
-          };
-          this.socket.onmessage = function (msg) {
-            // eslint-disable-next-line no-console
-            console.log('%c Received: %s', 'color: #46af91;', msg.data);
-            if (msg.data.includes('Connected to Binotel WebSocket. Please, authorise!')) {
-              this.socket.send(wsMessage);
-            }
-          };
+
+          // eslint-disable-next-line no-console
+          console.log(this.socket, 'SOCKET');
+          this.socket.send(wsMessage);
+
+          // this.socket.onopen = function()
+          // {
+          //   // eslint-disable-next-line no-console
+          //   console.log('Socket Status: ', this.socket.readyState, ' (open)');
+          // };
+          //
+          // this.socket.onmessage = function(msg)
+          // {
+          //   // eslint-disable-next-line no-console
+          //   console.log('%c Received: %s', 'color: #46af91;', msg.data);
+          //
+          //   if (msg.data.includes('Connected to Binotel WebSocket. Please, authorise!')) {
+          //
+          //   }
+          // };
         }
       }
       return;

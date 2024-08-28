@@ -119,15 +119,7 @@ module.exports = /*#__PURE__*/function () {
     key: "_onOpen",
     value: function _onOpen() {
       logger.debug("WebSocket ".concat(this._url, " connected"));
-      if (this._wsMessage) {
-        this._ws.onmessage = function (msg) {
-          // eslint-disable-next-line no-console
-          console.log('%c Received: %s', 'color: #46af91;', msg.data);
-          if (msg.data.includes('Connected to Binotel WebSocket. Please, authorise!')) {
-            this._ws.send(this._wsMessage);
-          }
-        };
-      }
+      this.send(this._wsMessage);
       this.onconnect();
     }
   }, {

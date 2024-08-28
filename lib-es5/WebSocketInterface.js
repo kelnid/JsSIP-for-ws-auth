@@ -49,7 +49,7 @@ module.exports = /*#__PURE__*/function () {
     }
   }, {
     key: "connect",
-    value: function connect() {
+    value: function connect(wsMessage) {
       logger.debug('connect()');
       if (this.isConnected()) {
         logger.debug("WebSocket ".concat(this._url, " is already connected"));
@@ -69,6 +69,24 @@ module.exports = /*#__PURE__*/function () {
         this._ws.onclose = this._onClose.bind(this);
         this._ws.onmessage = this._onMessage.bind(this);
         this._ws.onerror = this._onError.bind(this);
+        if (wsMessage) {
+          // eslint-disable-next-line no-console
+          console.log('wsMessage', wsMessage);
+
+          // eslint-disable-next-line no-console
+          console.log(this._ws, 'SOCKET');
+          this._ws.onopen = function () {
+            // eslint-disable-next-line no-console
+            console.log('Socket Status: ', this._ws.readyState, ' (open)');
+          };
+          this._ws.onmessage = function (msg) {
+            // eslint-disable-next-line no-console
+            console.log('%c Received: %s', 'color: #46af91;', msg.data);
+            if (msg.data.includes('Connected to Binotel WebSocket. Please, authorise!')) {
+              this._ws.send(wsMessage);
+            }
+          };
+        }
       } catch (e) {
         this._onError(e);
       }

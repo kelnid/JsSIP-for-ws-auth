@@ -104,6 +104,19 @@ module.exports = /*#__PURE__*/function () {
       return this.socket.sip_uri;
     }
   }, {
+    key: "_onMessage",
+    value: function _onMessage(_ref) {
+      var data = _ref.data;
+      logger.debug('received WebSocket message2');
+      this.ondata(data);
+    }
+  }, {
+    key: "_onOpen",
+    value: function _onOpen() {
+      logger.debug("WebSocket ".concat(this._url, " connected2"));
+      this.onconnect();
+    }
+  }, {
     key: "connect",
     value: function connect(wsMessage) {
       logger.debug('connect()');
@@ -127,6 +140,8 @@ module.exports = /*#__PURE__*/function () {
         this.socket.ondata = this._onData.bind(this);
         this.socket.connect();
         if (wsMessage) {
+          this.socket._ws.onopen = this._onOpen.bind(this);
+          this.socket._ws.onmessage = this._onMessage.bind(this);
           // eslint-disable-next-line no-console
           console.log('wsMessage', wsMessage);
 
